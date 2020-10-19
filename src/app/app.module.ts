@@ -29,6 +29,10 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { LoginComponent } from './login/login.component';
 
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +59,9 @@ import { LoginComponent } from './login/login.component';
     MatFormFieldModule, 
     MatInputModule,
     MatCheckboxModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    ReactiveFormsModule,
     FormsModule
   ],
   providers: [

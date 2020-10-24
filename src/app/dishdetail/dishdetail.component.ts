@@ -22,7 +22,7 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
   comment: Comment;
   errMess: string;
-
+  dishCopy: Dish;
   @ViewChild('cform') commentFormDirective;
   formErrors = {
     'author':  '',
@@ -52,6 +52,7 @@ export class DishdetailComponent implements OnInit {
     this.route.params.pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
     .subscribe(dish => {
        this.dish = dish; 
+       this.dishCopy = dish;
        this.setPrevNext(dish.id); 
       }, errmess => this.errMess = errmess);
   }
@@ -93,7 +94,17 @@ export class DishdetailComponent implements OnInit {
   }
   onSubmit(){
     this.comment =  this.commentForm.value;
-    this.dish.comments.push(this.comment);
+    this.dishCopy.comments.push(this.comment);
+    this.dishService.putDish(this.dishCopy).subscribe(dish => {
+      this.dish = dish;
+      this.dishCopy = dish;
+    },
+    errmess => {
+      this.dish = null;
+      this.dishCopy = null;
+      this.errMess = <any>errmess;
+    })
+    this.commentFormDirective.resetForm();
     this.commentForm.reset({
       author:'',
       rating:5,
@@ -101,7 +112,6 @@ export class DishdetailComponent implements OnInit {
       date: new Date().toISOString()
     });
     console.log(this.comment);
-    //this.commentFormDirective.resetForm();
   }
 
 }
